@@ -1,7 +1,8 @@
 # I probably should create a "commands" dictionary, which is a dictionary
-# containing lists.
+# where keys are the "names" of the commands, and "elements" are lists
+# of acceptable phrasings for those commands.
 
-b_commands = {
+bv_commands = {
     'start_game': [
         "I will kick that stupid bears ass!",
         "start",
@@ -35,10 +36,20 @@ b_commands = {
         "x",
         "leave game"
     ],
-    'back': [
+    'back_words': [
         "b",
         "back",
         "go back",
         "go up"
+    ],
+    'about_words': [
+        "a",
+        "about",
+        "disclaimer"
+    ],
+    'help_words': [
+        "h",
+        "help",
+        "help me"
     ]
 }

@@ -3,26 +3,15 @@
 # This is the file where I define the functions which make up the game.
 #
 # About naming conventions:
-#   ---------
-#   General
-#       If a name of any object is made up of several words, I will use '_' characters to separate them.
-#       I will not use uppercase letters in these names.
-#   ---------
 #   Functions
 #       I will consequently add a 'b_' prefix to all function names to avoid any accidental clashes with
 #       builtin functions.
 #
-#   ---------
-#   Variables
-#       Global variables: prefix: 'g_'.
-#       I plan to store certain data (like health points and inventory contents and the fulfillment of
-#       certain criteria) about the game-play in global variables and make these available to other functions.
-#       Local variables: i won't give locals prefixes.
-#
 
 import os
 from sys import exit
-from bearcave_globals import b_commands
+from bearcave_globals import bv_commands
+
 
 def b_printer(filename):
     text_to_print = open(filename)
@@ -35,9 +24,9 @@ def b_menu_nav():
     while True:
         command = raw_input("> ")
 
-        if command == "b":
+        if command in bv_commands['back_words']:
             b_main_menu()
-        elif command == "q":
+        elif command in bv_commands['exit_words']:
             exit(0)
         else:
             pass
@@ -46,6 +35,7 @@ def b_menu_nav():
 def dead(why):
     print why, "Good job!"
     exit(0)
+
 
 def b_disclaimer():
     b_printer("disclaimer.txt")
@@ -74,13 +64,13 @@ def b_main_menu():
     while True:
         command = raw_input("> ")
 
-        if command == "help":
+        if command in bv_commands["help_words"]:
             b_help()
-        elif command == "about":
+        elif command in bv_commands["about_words"]:
             b_disclaimer()
-        elif command in b_commands["start_game"]:
+        elif command in bv_commands["start_game"]:
             b_start()
-        elif command in b_commands["swear_words"]:
+        elif command in bv_commands["swear_words"]:
             swear_count += 1
             if swear_count < 3:
                 print "That is not a very nice thing to say."
@@ -89,15 +79,17 @@ def b_main_menu():
                 print "Fuck you", swear_count, "times!"
                 pass
             else:
-                dead("You are especially rude, adventurer.\nAs a punishment, the bear comes out from the game,\nrapes you and eats your face.")
-        elif command in b_commands["exit_words"]:
+                dead("You are especially rude, adventurer.\n"
+                     "As a punishment, the bear comes out from the game,\n"
+                     "rapes you and eats your face.")
+        elif command in bv_commands["exit_words"]:
             print "'twas nice having you, great adventurer. \nSee you next time!"
             exit(0)
         else:
-            print "I didn't understand that. \nPlease type something like the four commands up there!\n"
+            print "I didn't understand that. \n" \
+                  "Please type something like the four commands up there!\n"
 
 
 def b_start():
+    print "This is not ready yet."
     pass
-
-

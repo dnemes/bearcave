@@ -19,7 +19,7 @@ for exiting the game) other times they won’t work, but don’t let that
 bother you.
 
 ((To exit the game at any time, pls. hit ctrl+C or ctrl+D, depending on 
-your system. (Please keep in mind)))
+your system.))
 
 Some words of encouragement:
 
