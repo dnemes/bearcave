@@ -22,7 +22,7 @@
 
 import os
 from sys import exit
-
+from bearcave_globals import b_commands
 
 def b_printer(filename):
     text_to_print = open(filename)
@@ -69,9 +69,6 @@ def b_main_menu():
     print "For leaving the game, type 'exit' !"
     print "If you feel ready to jump in, just write 'I will kick that stupid bears ass!'. \n\nHave fun!"
 
-    start_game = ['I will kick that stupid bears ass!', 'start', 'go', 'kill bear', 'bear hunter', 'hunt']
-    swear_words = ["fuck", "screw", "screw you" ,"fuck you", "this game is stupid", "cunt", "ass", "fucktwat"]
-    exit_words = ["exit", "quit", "leave", "q", "x"]
     swear_count = 0
 
     while True:
@@ -81,9 +78,9 @@ def b_main_menu():
             b_help()
         elif command == "about":
             b_disclaimer()
-        elif command in start_game:
+        elif command in b_commands["start_game"]:
             b_start()
-        elif command in swear_words:
+        elif command in b_commands["swear_words"]:
             swear_count += 1
             if swear_count < 3:
                 print "That is not a very nice thing to say."
@@ -93,7 +90,7 @@ def b_main_menu():
                 pass
             else:
                 dead("You are especially rude, adventurer.\nAs a punishment, the bear comes out from the game,\nrapes you and eats your face.")
-        elif command in exit_words:
+        elif command in b_commands["exit_words"]:
             print "'twas nice having you, great adventurer. \nSee you next time!"
             exit(0)
         else:
