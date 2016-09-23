@@ -1,0 +1,28 @@
+The Bear Cave – Text Game
+-------------------------
+
+Welcome adventurer, behold the fantastic scroll of ‘help’!
+
+The way the game works, is that it prints some text to the screen 
+(usually describing your situation at that part of the game), and then 
+sooner or later a prompt appears (you know, this character: ‘> ’).
+
+Then you will need to enter commands – sometimes their wordings will be 
+written up as choices, sometimes you will have to guess... The important 
+thing is to not panic, and be brave to try a lot of commands in any 
+situations. Swearing and bloodthirsty actions may have a very dire, or 
+very funny consequences, do give them a try : ). The game basically 
+understands one or two word, situation dependent commands (unless 
+specified otherwise), so try to keep your ordering around short. 
+Sometimes one letter abbreviations work (like ‘i’ for inventory, or ‘x’ 
+for exiting the game) other times they won’t work, but don’t let that
+bother you.
+
+((To exit the game at any time, pls. hit ctrl+C or ctrl+D, depending on 
+your system. (Please keep in mind)))
+
+Some words of encouragement:
+
+This game will kill you quite often, but don’t let that drag you down, 
+the point of it is the exploration of the possible outcomes. Have fun! 
+: )

@@ -1,0 +1,9 @@
+
+Welcome to The Bear Cave!
+
+If you need help navigating the game, type 'help' next to the prompt.
+To find out what is this game, type 'about'.
+For leaving the game, type 'exit'!
+If you feel ready to jump in, just write 'I will kick that stupid bears ass!'.
+
+Have fun!
