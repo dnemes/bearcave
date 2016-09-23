@@ -30,6 +30,8 @@ bv_commands = {
     ],
     'exit_words': [
         "exit",
+        "exit game",
+        "quit game",
         "quit",
         "leave",
         "q",

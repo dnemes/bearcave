@@ -32,7 +32,7 @@ def b_menu_nav():
             pass
 
 
-def dead(why):
+def b_dead(why):
     print why, "Good job!"
     exit(0)
 
@@ -57,7 +57,7 @@ def b_main_menu():
     print "If you need help navigating the game, type 'help' next to the prompt."
     print "To find out what is this game, type 'about'."
     print "For leaving the game, type 'exit' !"
-    print "If you feel ready to jump in, just write 'I will kick that stupid bears ass!'. \n\nHave fun!"
+    print "If you feel ready to jump in, just write 'I will kick that stupid bear's ass!'. \n\nHave fun!"
 
     swear_count = 0
 
@@ -76,12 +76,12 @@ def b_main_menu():
                 print "That is not a very nice thing to say."
                 pass
             elif swear_count < 6:
-                print "Fuck you", swear_count, "times!"
+                print "Frack you", swear_count, "times!"
                 pass
             else:
-                dead("You are especially rude, adventurer.\n"
-                     "As a punishment, the bear comes out from the game,\n"
-                     "rapes you and eats your face.")
+                b_dead("You are especially rude, adventurer.\n"
+                       "As a punishment, the bear comes out from the game,\n"
+                       "rapes you and eats your face.")
         elif command in bv_commands["exit_words"]:
             print "'twas nice having you, great adventurer. \nSee you next time!"
             exit(0)
