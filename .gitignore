@@ -39,4 +39,8 @@ Thumbs.db
 # IDEA working files #
 ######################
 *.pyc
-.idea/
+.idea/*
+
+# Certain files from the project #
+##################################
+test.py
