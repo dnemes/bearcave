@@ -10,7 +10,7 @@
 #
 #   ---------
 #   Variables
-#       Global variables: prefix: 'g_'.
+#       Global variables: prefix: 'bv_'.
 #       I plan to store certain data (like health points and inventory contents and the fulfillment of
 #       certain criteria) about the game-play in global variables and make these available to other functions.
 #       Local variables: i won't give locals prefixes.

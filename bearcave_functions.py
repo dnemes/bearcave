@@ -10,15 +10,17 @@
 
 import os
 from sys import exit
-from bearcave_globals import bv_commands
+from bearcave_globals import *
 
 
 def b_printer(filename):
+    """Function for printing .txt files in the project folder."""
     text_to_print = open(filename)
     print text_to_print.read()
 
 
 def b_menu_nav():
+    """Function which inserts the Menu Navigation into other functions. Use at end of function."""
     print "Type 'b' to get back to the Main Menu, or hit 'q' to exit the game."
 
     while True:
@@ -33,16 +35,19 @@ def b_menu_nav():
 
 
 def b_dead(why):
+    """Function to call, when the player dies."""
     print why, "Good job!"
     exit(0)
 
 
 def b_disclaimer():
+    """About page."""
     b_printer("disclaimer.txt")
     b_menu_nav()
 
 
 def b_help():
+    """Help page."""
     b_printer("help.txt")
     b_menu_nav()
 
