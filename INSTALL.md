@@ -8,5 +8,7 @@ https://learnpythonthehardway.org/book/ex0.html
 * In the Terminal (or PowerShell) cd (change directory) to the unpacked bearcave folder.<br>
 <code> $ cd [absolute path of the unpacked bearcave folder]</code>
 
-* type <code> $ python bearcave_public_testrun.py</code> into the terminal.
+* Start the game by typing<br> 
+<code> $ python bearcave_public_testrun.py</code><br>
+into the terminal.
 
