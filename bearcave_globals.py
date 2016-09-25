@@ -13,15 +13,18 @@
 # modified during the game.
 #  - "achievements" is also a list, containing the achievements of the
 # player.
+#  - "gold" is the amount of gold.
+#  - "points" is the amount of points (I'm not sure i will use it.)
 #
 #
-# .
+#
 
 bv_commands = {
     'start_game': [
         "I will kick that stupid bears ass!",
-        "start",
+        "kick",
         "go",
+        "start",
         "kill bear",
         "bear hunter",
         "hunt",
@@ -76,24 +79,67 @@ class BVPlayer(object):
     """This is the player class.
 
     Attributes:
-        inventory: A list of unique strings representing the players possessions.
+        inventory: A list of strings representing the players possessions.
         health: A positive integer.
-        achievements: A list of unique strings.
+        achievements: A list of strings.
         gold: A positive integer.
         points: A positive integer (not sure if i will use it).
     """
 
-    def __init__(self, inventory, health, achievements, gold, points):
-        self.inventory = inventory
+    def __init__(self, health, gold, points):
+        self.inventory = []
         self.health = health
-        self.achievements = achievements
+        self.achievements = []
         self.gold = gold
         self.points = points
 
     def print_current_state(self):
         """Prints all data stored in the instance of the BVPlayer object."""
-        print self.inventory
-        print self.health
-        print self.achievements
-        print self.gold
-        print self.points
+        print "-------------------------"
+        print "Inventory:\t", self.inventory
+        print "Health:\t\t", self.health
+        print "Achievements:\t", self.achievements
+        print "Gold:\t\t", self.gold
+        print "Points:\t\t", self.points
+        print "-------------------------"
+
+    def inv_item(self, i):
+        """Returns number 'i' item of achievement list."""
+        print self.inventory[i]
+
+    def inv_add(self, new_item, print_it):
+        """Adds item to inventory list. If 'print_it' is set to true, a message is
+        printed."""
+        self.inventory.append(new_item)
+        if print_it:
+            print new_item, "is added to inventory."
+        else:
+            pass
+
+    def ach_item(self, i):
+        """Returns number 'i' item of achievement list."""
+        print self.achievements[i]
+
+    def ach_add(self, new_item, print_it):
+        """Adds item to achievements list. If 'print_it' is set to true, a
+        message is printed."""
+        self.achievements.append(new_item)
+        if print_it:
+            print "New Achievement Achieved:", new_item
+        else:
+            pass
+
+    def ch_health(self, change):
+        """Changes the health attribute by 'change' amount of HP. Use integers."""
+        self.health += change
+        print "You have", self.health, "healt points."
+
+    def ch_gold(self, change):
+        """Changes the gold attribute by 'change' amount. Use integers."""
+        self.gold += change
+        print "You have", self.gold, "Gold."
+
+    def ch_points(self, change):
+        """Changes the points attribute by 'change' amount. Use integers."""
+        self.points += change
+        print "You have", self.points, "points."

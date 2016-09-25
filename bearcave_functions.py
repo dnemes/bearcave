@@ -77,10 +77,10 @@ def b_main_menu():
             b_start()
         elif command in bv_commands["swear_words"]:
             swear_count += 1
-            if swear_count < 3:
+            if swear_count < 2:
                 print "That is not a very nice thing to say."
                 pass
-            elif swear_count < 6:
+            elif swear_count < 4:
                 print "Frack you", swear_count, "times!"
                 pass
             else:
