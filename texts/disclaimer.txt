@@ -1,0 +1,15 @@
+---------------------------
+The Bear Cave –>   *ABOUT*
+---------------------------
+
+I'm Nemes Domonkos, a 1st year student in a postgraduate pro-
+gramming school, Számalk. I wrote this game as a study project
+for the 'Basics of Programming' seminar. I think of it as
+of a good way to learn the fundamentals of programming, and 
+to get to know to the specifics of the python language.
+
+After I started to work on the game seriously, it soon turned 
+out that I bit a lot more than I could chew, so please forgive 
+me for the occasional clumsyness of the gameplay. I hope 
+however, that I managed to make at least the code readable, and 
+that you will have some good moments with the game.

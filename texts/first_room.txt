@@ -1,0 +1,10 @@
+---------------------------
+You are in small room, underground. The only source of light is a torch fixed
+to the wall with an iron bar. That’s the only object in the room, apart from
+that it’s empty – there is only dust and some very mushy smell.
+
+There are also two doors on the wall, one to your right,
+and another to your left.
+
+What do you do?
+

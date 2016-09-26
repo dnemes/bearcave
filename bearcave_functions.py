@@ -14,7 +14,7 @@ from bearcave_globals import *
 
 
 def b_not_ready():
-    # Prints a message, and exits.
+    """Prints a message, and exits."""
     print "*------------------------*\n" \
           "* This is not ready yet. *\n" \
           "*------------------------*"
@@ -23,8 +23,11 @@ def b_not_ready():
 
 def b_printer(filename):
     """Function for printing .txt files in the project folder."""
-    text_to_print = open(filename)
+    file_dir = os.path.dirname(os.path.realpath('__file__'))
+    openfilename = os.path.join(file_dir, filename)
+    text_to_print = open(openfilename)
     print text_to_print.read()
+    text_to_print.close()
 
 
 def b_menu_nav():
@@ -34,9 +37,9 @@ def b_menu_nav():
     while True:
         command = raw_input("> ")
 
-        if command in bv_commands['back_words']:
+        if command in bv_commands['back']:
             b_main_menu()
-        elif command in bv_commands['exit_words']:
+        elif command in bv_commands['exit']:
             exit(0)
         else:
             pass
@@ -50,36 +53,32 @@ def b_dead(why):
 
 def b_disclaimer():
     """About page."""
-    b_printer("disclaimer.txt")
+    b_printer("texts/disclaimer.txt")
     b_menu_nav()
 
 
 def b_help():
     """Help page."""
-    b_printer("help.txt")
+    b_printer("texts/help.txt")
     b_menu_nav()
 
 
 def b_main_menu():
-    # This function is going to be called first, when you start the game.
-    # You will be able to get help, read about the background of this game,
-    # and start the game. This function can also respond to some swearwords
-    # in an interactive way.
+    """This function is going to be called first, when you start the game.
+    You will be able to get help, read about the background of this game,
+    and start the game. This function can also respond to some swearwords
+    in an interactive way."""
 
-    print "\nWelcome to The Bear Cave! \n"
-    print "If you need help navigating the game, type 'help' next to the prompt."
-    print "To find out what is this game, type 'about'."
-    print "For leaving the game, type 'exit' !"
-    print "If you feel ready to jump in, just write 'I will kick that stupid bear's ass!'. \n\nHave fun!"
+    b_printer('texts/main_menu.txt')
 
     swear_count = 0
 
     while True:
         command = raw_input("> ")
 
-        if command in bv_commands["help_words"]:
+        if command in bv_commands["help"]:
             b_help()
-        elif command in bv_commands["about_words"]:
+        elif command in bv_commands["about"]:
             b_disclaimer()
         elif command in bv_commands["start_game"]:
             b_start()
@@ -95,7 +94,7 @@ def b_main_menu():
                 b_dead("You are especially rude, adventurer.\n"
                        "As a punishment, the bear comes out from the game,\n"
                        "rapes you and eats your face.")
-        elif command in bv_commands["exit_words"]:
+        elif command in bv_commands["exit"]:
             print "'twas nice having you, great adventurer. \nSee you next time!"
             exit(0)
         else:
@@ -121,9 +120,9 @@ def b_start():
     command = raw_input("> ")
 
     while True:
-        if command in bv_commands['yes_words']:
+        if command in bv_commands['yes']:
             b_first_room()
-        elif command in bv_commands['no_words']:
+        elif command in bv_commands['no']:
             b_main_menu()
         else:
             print "Sorry, that's not a yes or a no. Try to answer again, \n" \
@@ -131,6 +130,7 @@ def b_start():
 
 
 # def b_yes_no(question, print_it, yes_command, no_command):
+#     # NOT WORKING!!!!!
 #     # This is for inserting Yes-No-Questions into other elements
 #     # (like b_start()...)
 #     if print_it:
@@ -153,7 +153,27 @@ def b_start():
 
 
 def b_first_room():
-    b_not_ready()
+    """Start scene."""
+    b_printer('texts/first_room.txt')
+    indecision = 0
+    while True:
+        command = raw_input("> ")
+
+        if command in bv_commands['left']:
+            b_bottom_of_the_well()
+        elif command in bv_commands['right']:
+            b_corridor()
+        elif command in bv_commands['turn_off_lights']:
+            b_dead("You extinguished the torch, so now you are in the dark,\n"
+                   "and you die in the dark, slowly going crazy.")
+        else:
+            if indecision < 3:
+                indecision += 1
+                print "Say again?"
+
+            else:
+                b_dead("I have two kittens who are more determined than that.\n"
+                       "You die of procrastination. (Very common nowadays.)")
 
 
 def b_bottom_of_the_well():

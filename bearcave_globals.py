@@ -46,7 +46,7 @@ bv_commands = {
         "you dick",
         "asshole"
     ],
-    'exit_words': [
+    'exit': [
         "exit",
         "exit game",
         "quit game",
@@ -56,36 +56,76 @@ bv_commands = {
         "x",
         "leave game"
     ],
-    'back_words': [
+    'back': [
         "b",
         "back",
         "go back",
         "go up"
     ],
-    'about_words': [
+    'about': [
         "a",
         "about",
         "disclaimer"
     ],
-    'help_words': [
+    'help': [
         "h",
         "help",
         "help me"
     ],
-    'yes_words': [
+    'yes': [
         "y",
         "Y",
         "YES",
         "yes",
         "Yes"
     ],
-    'no_words': [
+    'no': [
         "n",
         "N",
         "no",
         "NO",
         "No"
-    ]
+    ],
+    'left': [
+        'l',
+        'L',
+        'left',
+        'Left',
+        'LEFT',
+        'go l',
+        'GO L',
+        'go left',
+        'Go Left',
+        'GO LEFT',
+        "let's take a leftie",
+        'leftie',
+        'not the right, the other one'
+    ],
+    'right': [
+        'r',
+        'R',
+        'right',
+        'Right',
+        'RIGTH',
+        'go r',
+        'GO R',
+        'go right',
+        'Go Right',
+        'GO RIGTH',
+        "let's take a rightie",
+        'not the left, the other one'
+    ],
+    'turn_off_lights': [
+        "turn of",
+        "Lights off!",
+        "put out light",
+        "turn off the light",
+        "turn light off",
+        "put torch out",
+        "extinguish torch",
+        "kill lights"
+    ],
+    'take_torch': []
 }
 
 
