@@ -71,6 +71,20 @@ bv_commands = {
         "h",
         "help",
         "help me"
+    ],
+    'yes_words': [
+        "y",
+        "Y",
+        "YES",
+        "yes",
+        "Yes"
+    ],
+    'no_words': [
+        "n",
+        "N",
+        "no",
+        "NO",
+        "No"
     ]
 }
 
@@ -86,7 +100,8 @@ class BVPlayer(object):
         points: A positive integer (not sure if i will use it).
     """
 
-    def __init__(self, health, gold, points):
+    def __init__(self, name, health, gold, points):
+        self.name = name
         self.inventory = []
         self.health = health
         self.achievements = []
