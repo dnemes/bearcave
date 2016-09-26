@@ -125,7 +125,20 @@ bv_commands = {
         "extinguish torch",
         "kill lights"
     ],
-    'take_torch': []
+    'take_torch': [],
+    'stay': [
+        "s",
+        "stay",
+        "sit down",
+        "don't go",
+        "dont go"
+    ],
+    'climb': [
+        "climb",
+        "climb walls",
+        "climb up",
+        "climb out"
+    ]
 }
 
 

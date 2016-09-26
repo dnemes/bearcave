@@ -35,7 +35,7 @@ def b_menu_nav():
     print "Type 'b' to get back to the Main Menu, or hit 'q' to exit the game."
 
     while True:
-        command = raw_input("> ")
+        command = raw_input(" > ")
 
         if command in bv_commands['back']:
             b_main_menu()
@@ -74,7 +74,7 @@ def b_main_menu():
     swear_count = 0
 
     while True:
-        command = raw_input("> ")
+        command = raw_input(" > ")
 
         if command in bv_commands["help"]:
             b_help()
@@ -107,7 +107,7 @@ def b_start():
     # class, with that name.
     print "What is your name?"
 
-    name = raw_input("> ")
+    name = raw_input(" > ")
     player = BVPlayer(name, 10, 0, 0)
 
     print "Welcome to the game,", name, "!"
@@ -117,7 +117,7 @@ def b_start():
     print "Are you ready to start the game?" \
           "\nType 'y' for Yes, 'n' for No."
 
-    command = raw_input("> ")
+    command = raw_input(" > ")
 
     while True:
         if command in bv_commands['yes']:
@@ -138,7 +138,7 @@ def b_start():
 #     else:
 #         pass
 #
-#     command = raw_input("> ")
+#     command = raw_input(" > ")
 #
 #     while True:
 #         if command in bv_commands['yes_words']:
@@ -153,11 +153,11 @@ def b_start():
 
 
 def b_first_room():
-    """Start scene."""
+    """Start scene. Empty room, two ways to leave, two ways to die."""
     b_printer('texts/first_room.txt')
     indecision = 0
     while True:
-        command = raw_input("> ")
+        command = raw_input(" > ")
 
         if command in bv_commands['left']:
             b_bottom_of_the_well()
@@ -177,7 +177,47 @@ def b_first_room():
 
 
 def b_bottom_of_the_well():
-    b_not_ready()
+    """Dead end. Go back, or die."""
+    b_printer('texts/bottom_of_the_well.txt')
+    stayed = 0
+
+    while True:
+        command = raw_input(" > ")
+
+        if command in bv_commands['back']:
+            print "You leave the well and the beautiful\n" \
+                  "sky with an ache in your hearth."
+            b_first_room()
+        elif command in bv_commands['climb']:
+            b_dead("You try to climb out of the hole. At first it goes\n"
+                   "pretty well, but after a time you start to tire.\n\n"
+                   "You are about halfway, when your foot slips, and\n"
+                   "you fall down about 30 meters.\n\n"
+                   "Your remains form a nice little pool, which is serves\n"
+                   "as a smorgasbord for worms!")
+        else:
+            stayed += 1
+            if command in bv_commands['stay']:
+                if stayed < 2:
+                    print "You decide to stay a bit more, to watch\n" \
+                          "the beautiful moonlight.\n" \
+                          "After a few minutes of gay wondering about\n" \
+                          "the night sky nothing happens. What do you do?"
+                else:
+                    b_dead("As you nap there unwitting, a huge albatros\n"
+                           "shits on your head, and the 50 kilo of bird feces\n"
+                           "breaks your head-brain-shoulders-everything.\n"
+                           "You die a ridiculously gross death.")
+            else:
+                if stayed < 2:
+                    print "I didn't get that, so some time passes.\n" \
+                          "The question remains, whacha gonna dú??"
+                    pass
+                else:
+                    b_dead("As you nap there unwitting, a huge albatros\n"
+                           "shits on your head, and the 50 kilo of bird feces\n"
+                           "breaks your head-brain-shoulders-everything.\n"
+                           "You die a ridiculously gross death.")
 
 
 def b_corridor():
