@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 # About this file:
 # This is the file where I define the functions which make up the game.
+# I also have here the BPlayer class, which contains the current player's
+# data.
 #
 # About naming conventions:
 #   Functions
@@ -10,15 +12,88 @@
 
 import os
 from sys import exit
-from bearcave_globals import *
+from b_globals import *
+import random
+
+
+class BPlayer(object):
+    """This is the player class.
+
+    Attributes:
+        inventory: A list of strings representing the players possessions.
+        health: A positive integer.
+        achievements: A list of strings.
+        gold: A positive integer.
+        points: A positive integer (not sure if i will use it).
+    """
+
+    def __init__(self, name, health, gold, points):
+        self.name = name
+        self.inventory = []
+        self.health = health
+        self.achievements = []
+        self.gold = gold
+        self.points = points
+
+    def print_current_state(self):
+        """Prints all data stored in the instance of the BVPlayer object."""
+        print "-------------------------"
+        print "Inventory:\t", self.inventory
+        print "Health:\t\t", self.health
+        print "Achievements:\t", self.achievements
+        print "Gold:\t\t", self.gold
+        print "Points:\t\t", self.points
+        print "-------------------------"
+
+    def inv_item(self, i):
+        """Returns number 'i' item of achievement list."""
+        print self.inventory[i]
+
+    def inv_add(self, new_item, print_it):
+        """Adds item to inventory list. If 'print_it' is set to true, a message is
+        printed."""
+        self.inventory.append(new_item)
+        if print_it:
+            print new_item, "is added to inventory."
+        else:
+            pass
+
+    def ach_item(self, i):
+        """Returns number 'i' item of achievement list."""
+        print self.achievements[i]
+
+    def ach_add(self, new_item, print_it):
+        """Adds item to achievements list. If 'print_it' is set to true, a
+        message is printed."""
+        self.achievements.append(new_item)
+        if print_it:
+            print "New Achievement Achieved:", new_item
+        else:
+            pass
+
+    def ch_health(self, change):
+        """Changes the health attribute by 'change' amount of HP. Use integers."""
+        self.health += change
+        print "You have", self.health, "healt points."
+
+    def ch_gold(self, change):
+        """Changes the gold attribute by 'change' amount. Use integers."""
+        self.gold += change
+        print "You have", self.gold, "Gold."
+
+    def ch_points(self, change):
+        """Changes the points attribute by 'change' amount. Use integers."""
+        self.points += change
+        print "You have", self.points, "points."
 
 
 def b_not_ready():
     """Prints a message, and exits."""
     print "*------------------------*\n" \
           "* This is not ready yet. *\n" \
-          "*------------------------*"
-    exit(0)
+          "*------------------------*\n\n" \
+          "... returning to Main Menu ..."
+    b_main_menu()
 
 
 def b_printer(filename):
@@ -47,7 +122,7 @@ def b_menu_nav():
 
 def b_dead(why):
     """Function to call, when the player dies."""
-    print why, "Good job!"
+    print why, "\nGood job!"
     exit(0)
 
 
@@ -108,7 +183,7 @@ def b_start():
     print "What is your name?"
 
     name = raw_input(" > ")
-    player = BVPlayer(name, 10, 0, 0)
+    player = BPlayer(name, 10, 0, 0)
 
     print "Welcome to the game,", name, "!"
     print "These are your stats:"
@@ -127,29 +202,6 @@ def b_start():
         else:
             print "Sorry, that's not a yes or a no. Try to answer again, \n" \
                   "I swear it's not that hard."
-
-
-# def b_yes_no(question, print_it, yes_command, no_command):
-#     # NOT WORKING!!!!!
-#     # This is for inserting Yes-No-Questions into other elements
-#     # (like b_start()...)
-#     if print_it:
-#         print question, "\nType 'y' for Yes, 'n' for No."
-#     else:
-#         pass
-#
-#     command = raw_input(" > ")
-#
-#     while True:
-#         if command in bv_commands['yes_words']:
-#             assert isinstance(yes_command, object)
-#             exec yes_command
-#         elif command in bv_commands['no_words']:
-#             assert isinstance(yes_command, object)
-#             exec no_command
-#         else:
-#             print "Sorry, that's not a yes or a no. Try to answer again, \n" \
-#                   "I swear it's not that hard."
 
 
 def b_first_room():
@@ -180,6 +232,10 @@ def b_bottom_of_the_well():
     """Dead end. Go back, or die."""
     b_printer('texts/bottom_of_the_well.txt')
     stayed = 0
+    albatros = "As you nap there unwitting, a huge albatros\n" \
+               "shits on your head, and the 50 kilo of bird feces\n" \
+               "breaks your head-brain-shoulders-everything.\n" \
+               "You die a ridiculously gross death."
 
     while True:
         command = raw_input(" > ")
@@ -204,20 +260,14 @@ def b_bottom_of_the_well():
                           "After a few minutes of gay wondering about\n" \
                           "the night sky nothing happens. What do you do?"
                 else:
-                    b_dead("As you nap there unwitting, a huge albatros\n"
-                           "shits on your head, and the 50 kilo of bird feces\n"
-                           "breaks your head-brain-shoulders-everything.\n"
-                           "You die a ridiculously gross death.")
+                    b_dead(albatros)
             else:
                 if stayed < 2:
                     print "I didn't get that, so some time passes.\n" \
                           "The question remains, whacha gonna dú??"
                     pass
                 else:
-                    b_dead("As you nap there unwitting, a huge albatros\n"
-                           "shits on your head, and the 50 kilo of bird feces\n"
-                           "breaks your head-brain-shoulders-everything.\n"
-                           "You die a ridiculously gross death.")
+                    b_dead(albatros)
 
 
 def b_corridor():
