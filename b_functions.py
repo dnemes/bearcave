@@ -11,29 +11,39 @@
 #
 
 import os
+import time
+import threading
 from sys import exit
 from b_globals import *
-import random
+
+# import random
 
 
+# -----------------------------------------------------------------------------
+# PLAYER CLASS for storing data of current player:
 class BPlayer(object):
     """This is the player class.
 
     Attributes:
+        name: The player's name.
         inventory: A list of strings representing the players possessions.
         health: A positive integer.
         achievements: A list of strings.
         gold: A positive integer.
         points: A positive integer (not sure if i will use it).
+        visited: An empty list for storing the IDs of rooms visited.
     """
 
-    def __init__(self, name, health, gold, points):
+    def __init__(self, name, inv, health, ach, gold, points):
+        i_list = inv.split((', ' or ',' or ' '))
+        a_list = ach.split((', ' or ',' or ' '))
         self.name = name
-        self.inventory = []
+        self.inventory = i_list
         self.health = health
-        self.achievements = []
+        self.achievements = a_list
         self.gold = gold
         self.points = points
+        self.visited = []
 
     def print_current_state(self):
         """Prints all data stored in the instance of the BVPlayer object."""
@@ -45,10 +55,6 @@ class BPlayer(object):
         print "Points:\t\t", self.points
         print "-------------------------"
 
-    def inv_item(self, i):
-        """Returns number 'i' item of achievement list."""
-        print self.inventory[i]
-
     def inv_add(self, new_item, print_it):
         """Adds item to inventory list. If 'print_it' is set to true, a message is
         printed."""
@@ -58,9 +64,13 @@ class BPlayer(object):
         else:
             pass
 
-    def ach_item(self, i):
+    def inv_item(self, i):
         """Returns number 'i' item of achievement list."""
-        print self.achievements[i]
+        print self.inventory[i]
+
+    def inv_print(self):
+        """Print all the contents of the inventory."""
+        print "These items are in your inventory:\n", self.inventory
 
     def ach_add(self, new_item, print_it):
         """Adds item to achievements list. If 'print_it' is set to true, a
@@ -70,6 +80,14 @@ class BPlayer(object):
             print "New Achievement Achieved:", new_item
         else:
             pass
+
+    def ach_item(self, i):
+        """Returns number 'i' item of achievement list."""
+        print self.achievements[i]
+
+    def ach_print(self):
+        """Prints achievements list."""
+        print "These are your achievements:", self.achievements
 
     def ch_health(self, change):
         """Changes the health attribute by 'change' amount of HP. Use integers."""
@@ -86,18 +104,34 @@ class BPlayer(object):
         self.points += change
         print "You have", self.points, "points."
 
+    def vis_add(self, new_item, print_it):
+        """Add ID of visited scene to self.visited[]. Prints message, if
+        print_it is set to True."""
+        self.visited.append(new_item)
+        if print_it:
+            print "This scene also visited:", new_item
+        else:
+            pass
 
-def b_not_ready():
+    def vis_print(self):
+        """Prints a list of scenes visited"""
+        print "These are the scenes you visited:", self.visited
+
+
+# -----------------------------------------------------------------------------
+# GAME FUNCTIONS. These are modular parts, some are used in other functions.
+def b_not_ready(nextscene):
     """Prints a message, and exits."""
-    print "*------------------------*\n" \
-          "* This is not ready yet. *\n" \
-          "*------------------------*\n\n" \
-          "... returning to Main Menu ..."
+    print "\n*-----------------------*"
+    print "*", nextscene, "\t\t*"
+    print "* ... is not ready yet. *\n" \
+          "*-----------------------*\n\n" \
+          "-returning to Main Menu-\n"
     b_main_menu()
 
 
 def b_printer(filename):
-    """Function for printing .txt files in the project folder."""
+    """Function for printing .txt files in the texts/ folder."""
     file_dir = os.path.dirname(os.path.realpath('__file__'))
     openfilename = os.path.join(file_dir, filename)
     text_to_print = open(openfilename)
@@ -126,18 +160,8 @@ def b_dead(why):
     exit(0)
 
 
-def b_disclaimer():
-    """About page."""
-    b_printer("texts/disclaimer.txt")
-    b_menu_nav()
-
-
-def b_help():
-    """Help page."""
-    b_printer("texts/help.txt")
-    b_menu_nav()
-
-
+# -----------------------------------------------------------------------------
+# MENU ITEMS. These functions make up the pages of the menu.
 def b_main_menu():
     """This function is going to be called first, when you start the game.
     You will be able to get help, read about the background of this game,
@@ -174,16 +198,35 @@ def b_main_menu():
             exit(0)
         else:
             print "I didn't understand that. \n" \
-                  "Please type something like the four commands up there!\n"
+                  "Please type something like the four commands up there!"
 
 
+def b_disclaimer():
+    """About page."""
+    b_printer("texts/disclaimer.txt")
+    b_menu_nav()
+
+
+def b_help():
+    """Help page."""
+    b_printer("texts/help.txt")
+    b_menu_nav()
+
+
+# -----------------------------------------------------------------------------
+# START SCREEN. Here the player gives a name, and a player object is created.
+# This is basically the first scene, so visiting this has to be counted in
+# player.visited[].
+#
 def b_start():
-    # Here we ask the player for a name and create an instance of the BVPlayer
-    # class, with that name.
+    """Here we ask the player for a name and create an instance of the BPlayer
+    class, with that name."""
     print "What is your name?"
 
     name = raw_input(" > ")
-    player = BPlayer(name, 10, 0, 0)
+    global player
+    player = BPlayer(name, '', 10, '', 0, 0)
+    player.vis_add('b_start', 0)
 
     print "Welcome to the game,", name, "!"
     print "These are your stats:"
@@ -192,9 +235,9 @@ def b_start():
     print "Are you ready to start the game?" \
           "\nType 'y' for Yes, 'n' for No."
 
-    command = raw_input(" > ")
-
     while True:
+        command = raw_input(" > ")
+
         if command in bv_commands['yes']:
             b_first_room()
         elif command in bv_commands['no']:
@@ -207,6 +250,9 @@ def b_start():
 def b_first_room():
     """Start scene. Empty room, two ways to leave, two ways to die."""
     b_printer('texts/first_room.txt')
+
+    player.vis_add('b_first_room', 0)
+
     indecision = 0
     while True:
         command = raw_input(" > ")
@@ -236,6 +282,7 @@ def b_bottom_of_the_well():
                "shits on your head, and the 50 kilo of bird feces\n" \
                "breaks your head-brain-shoulders-everything.\n" \
                "You die a ridiculously gross death."
+    player.vis_add('b_bottom_of_the_well', 0)
 
     while True:
         command = raw_input(" > ")
@@ -271,12 +318,76 @@ def b_bottom_of_the_well():
 
 
 def b_corridor():
-    b_not_ready()
+    """Corridor. Can go ahead. That's all you can do."""
+    b_printer('texts/corridor.txt')
+    indecision = 0
+    player.vis_add('b_corridor', 0)
+
+    while True:
+        command = raw_input(" > ")
+
+        if command in bv_commands['go']:
+            print "You start walking through the corridor..."
+            b_trap()
+            exit(0)
+        elif command in bv_commands['take_torch']:
+            print "You approach the torches..."
+            b_trap()
+            exit(0)
+        else:
+            if indecision < 1:
+                indecision += 1
+                print "I didn't catch you."
+            elif indecision < 2:
+                indecision += 1
+                print "You were saying?"
+            else:
+                b_dead("I have two kittens who are more determined than that.\n"
+                       "You die of procrastination. (Very common nowadays.)")
 
 
+# 16.2.7. Timer Objects in python 2.7.12 documentation!!!!! Also need to implement threading!!!
 def b_trap():
-    b_not_ready()
+    print "The floor suddenly disappears behind your feet. You start to fall.\n" \
+          "What do you do? HURRY!"
+
+    global isinput
+    isinput = 0
+
+    def command_listener():
+        """This listens to commands, and also reacts."""
+
+        while True:
+            command = raw_input(" > ")
+            if waiter.is_alive():
+                if command in bv_commands["jump"] or command in bv_commands["climb"]:
+                    global isinput
+                    isinput += 1
+                    print "We go to the next room!"
+                    waiter.join()
+                    b_dwarf_room()
+                else:
+                    print "Sorry, I didn't get that"
+            else:
+                exit(0)
+
+    def wait_sometime():
+        """Waits 5 seconds, then kill player. Also interrupts thread."""
+        time.sleep(5)  # or any other condition to kill the thread
+        global isinput
+        if isinput:
+            exit(0)
+        else:
+            b_dead("\nYou fall into the deep hole in the floor, and die when you\n"
+                   "hit the floor fifty meters down. : (\n\n"
+                   "(Hit Return/Enter to quit!)\n")
+
+    listener = threading.Thread(target=command_listener)
+    waiter = threading.Thread(target=wait_sometime)
+
+    waiter.start()
+    listener.start()
 
 
 def b_dwarf_room():
-    b_not_ready()
+    b_not_ready("Dwarf Room")

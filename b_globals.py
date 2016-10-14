@@ -5,6 +5,7 @@
 # "names" of the commands, and "elements" are lists of acceptable phrasings
 # for those commands.
 
+player = 0
 
 bv_commands = {
     'start_game': [
@@ -31,7 +32,9 @@ bv_commands = {
         "you ass",
         "dick",
         "you dick",
-        "asshole"
+        "asshole",
+        "shitface",
+        "assface"
     ],
     'exit': [
         "exit",
@@ -86,7 +89,10 @@ bv_commands = {
         'GO LEFT',
         "let's take a leftie",
         'leftie',
-        'not the right, the other one'
+        'not the right, the other one',
+        'take left',
+        'take a left',
+        'take a left turn'
     ],
     'right': [
         'r',
@@ -100,7 +106,10 @@ bv_commands = {
         'Go Right',
         'GO RIGTH',
         "let's take a rightie",
-        'not the left, the other one'
+        'not the left, the other one',
+        'take right',
+        'take a right',
+        'take a right turn'
     ],
     'turn_off_lights': [
         "turn of",
@@ -112,7 +121,11 @@ bv_commands = {
         "extinguish torch",
         "kill lights"
     ],
-    'take_torch': [],
+    'take_torch': [
+        "get torch",
+        "take torch",
+        "pick up torch"
+    ],
     'stay': [
         "s",
         "stay",
@@ -156,6 +169,14 @@ bv_commands = {
         "look around",
         "check room",
         "check everything",
+    ],
+    'jump': [
+        "jump",
+        "jump out",
+        "jump forward",
+        "leap forward",
+        "leap",
+        "leap out",
+        "hop out"
     ]
 }
-
