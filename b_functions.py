@@ -15,7 +15,6 @@ import time
 import threading
 from sys import exit
 from b_globals import *
-
 # import random
 
 
@@ -346,7 +345,6 @@ def b_corridor():
                        "You die of procrastination. (Very common nowadays.)")
 
 
-# 16.2.7. Timer Objects in python 2.7.12 documentation!!!!! Also need to implement threading!!!
 def b_trap():
     print "The floor suddenly disappears behind your feet. You start to fall.\n" \
           "What do you do? HURRY!"
@@ -390,4 +388,4 @@ def b_trap():
 
 
 def b_dwarf_room():
-    b_not_ready("Dwarf Room")
+    b_not_ready("Dwarf Room\t")
