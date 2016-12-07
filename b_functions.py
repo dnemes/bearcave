@@ -363,6 +363,7 @@ def b_trap():
                     isinput += 1
                     print "We go to the next room!"
                     waiter.join()
+                    player.vis_add(b_trap, 0)
                     b_dwarf_room()
                 else:
                     print "Sorry, I didn't get that"
@@ -388,4 +389,6 @@ def b_trap():
 
 
 def b_dwarf_room():
+#    player.vis_add(b_dwarf_room, 0)
+    b_printer("texts/kapanyanyimonyok.txt")
     b_not_ready("Dwarf Room\t")
