@@ -1,3 +1,4 @@
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 # About this file:
 # This is the file where I define the functions which make up the game.
@@ -15,13 +16,17 @@ import time
 import threading
 from sys import exit
 from b_globals import *
+
+
 # import random
 
 
 # -----------------------------------------------------------------------------
 # PLAYER CLASS for storing data of current player:
 class BPlayer(object):
-    """This is the player class.
+    """This is the player class. Please use the class methods (inv_add and
+    ach_add respectively) for filling the list-attributes (inventory 'inv'
+    and achievements 'ach')
 
     Attributes:
         name: The player's name.
@@ -34,8 +39,12 @@ class BPlayer(object):
     """
 
     def __init__(self, name, inv, health, ach, gold, points):
-        i_list = inv.split((', ' or ',' or ' '))
-        a_list = ach.split((', ' or ',' or ' '))
+        i_list = []
+        a_list = []
+        if inv:
+            i_list = inv.split((', ' or ',' or ' '))
+        if ach:
+            a_list = ach.split((', ' or ',' or ' '))
         self.name = name
         self.inventory = i_list
         self.health = health
@@ -45,7 +54,8 @@ class BPlayer(object):
         self.visited = []
 
     def print_current_state(self):
-        """Prints all data stored in the instance of the BVPlayer object."""
+        """Prints all data stored in the instance of the BPlayer object.
+        Formatting is not perfect, requires some fixing later."""
         print "-------------------------"
         print "Inventory:\t", self.inventory
         print "Health:\t\t", self.health
@@ -55,66 +65,61 @@ class BPlayer(object):
         print "-------------------------"
 
     def inv_add(self, new_item, print_it):
-        """Adds item to inventory list. If 'print_it' is set to true, a message is
-        printed."""
+        """Adds item to inventory list. If 'print_it' is set to true, a
+        message is printed."""
         self.inventory.append(new_item)
         if print_it:
-            print new_item, "is added to inventory."
-        else:
-            pass
-
-    def inv_item(self, i):
-        """Returns number 'i' item of achievement list."""
-        print self.inventory[i]
+            print "'{}' is added to inventory.".format(new_item)
 
     def inv_print(self):
         """Print all the contents of the inventory."""
-        print "These items are in your inventory:\n", self.inventory
+        print "These items are in your inventory:"
+        for i in self.inventory:
+            print "{},".format(i),
+        print
 
     def ach_add(self, new_item, print_it):
         """Adds item to achievements list. If 'print_it' is set to true, a
         message is printed."""
         self.achievements.append(new_item)
         if print_it:
-            print "New Achievement Achieved:", new_item
-        else:
-            pass
-
-    def ach_item(self, i):
-        """Returns number 'i' item of achievement list."""
-        print self.achievements[i]
+            print "New Achievement Achieved: '{}'".format(new_item)
 
     def ach_print(self):
         """Prints achievements list."""
-        print "These are your achievements:", self.achievements
+        print "These are your achievements:"
+        for i in self.achievements:
+            print "{},".format(i),
+        print
 
     def ch_health(self, change):
-        """Changes the health attribute by 'change' amount of HP. Use integers."""
+        """Changes the health attribute by 'change' amount of HP.
+           Use integers."""
         self.health += change
-        print "You have", self.health, "healt points."
+        print "Now you have {} health points.".format(self.health)
 
     def ch_gold(self, change):
         """Changes the gold attribute by 'change' amount. Use integers."""
         self.gold += change
-        print "You have", self.gold, "Gold."
+        print "You have {} Gold.".format(self.gold)
 
     def ch_points(self, change):
         """Changes the points attribute by 'change' amount. Use integers."""
         self.points += change
-        print "You have", self.points, "points."
+        print "You have {} points.".format(self.points)
 
     def vis_add(self, new_item, print_it):
         """Add ID of visited scene to self.visited[]. Prints message, if
         print_it is set to True."""
         self.visited.append(new_item)
         if print_it:
-            print "This scene also visited:", new_item
-        else:
-            pass
+            print "This scene also visited: {}".format(new_item)
 
     def vis_print(self):
         """Prints a list of scenes visited"""
-        print "These are the scenes you visited:", self.visited
+        print "These are the scenes you visited:"
+        for i in self.visited:
+            print "{}, ".format(i)
 
 
 # -----------------------------------------------------------------------------
@@ -139,7 +144,8 @@ def b_printer(filename):
 
 
 def b_menu_nav():
-    """Function which inserts the Menu Navigation into other functions. Use at end of function."""
+    """Function which inserts the Menu Navigation into other functions.
+    Use at end of function."""
     print "Type 'b' to get back to the Main Menu, or hit 'q' to exit the game."
 
     while True:
@@ -193,7 +199,8 @@ def b_main_menu():
                        "As a punishment, the bear comes out from the game,\n"
                        "rapes you and eats your face.")
         elif command in bv_commands["exit"]:
-            print "'twas nice having you, great adventurer. \nSee you next time!"
+            print "'twas nice having you, great adventurer." \
+                  "\nSee you next time!"
             exit(0)
         else:
             print "I didn't understand that. \n" \
@@ -224,7 +231,7 @@ def b_start():
 
     name = raw_input(" > ")
     global player
-    player = BPlayer(name, '', 10, '', 0, 0)
+    player = BPlayer(name, 0, 10, 0, 0, 0)
     player.vis_add('b_start', 0)
 
     print "Welcome to the game,", name, "!"
@@ -346,8 +353,8 @@ def b_corridor():
 
 
 def b_trap():
-    print "The floor suddenly disappears behind your feet. You start to fall.\n" \
-          "What do you do? HURRY!"
+    print "The floor suddenly disappears behind your feet." \
+          "You start to fall.\nWhat do you do? HURRY!"
 
     global isinput
     isinput = 0
@@ -358,7 +365,8 @@ def b_trap():
         while True:
             command = raw_input(" > ")
             if waiter.is_alive():
-                if command in bv_commands["jump"] or command in bv_commands["climb"]:
+                if command in bv_commands["jump"] or command in bv_commands[
+                    "climb"]:
                     global isinput
                     isinput += 1
                     print "We go to the next room!"
@@ -372,14 +380,15 @@ def b_trap():
 
     def wait_sometime():
         """Waits 5 seconds, then kill player. Also interrupts thread."""
-        time.sleep(5)  # or any other condition to kill the thread
+        time.sleep(5)
         global isinput
         if isinput:
             exit(0)
         else:
-            b_dead("\nYou fall into the deep hole in the floor, and die when you\n"
-                   "hit the floor fifty meters down. : (\n\n"
-                   "(Hit Return/Enter to quit!)\n")
+            b_dead(
+                "\nYou fall into the deep hole in the floor, and die when you\n"
+                "hit the floor fifty meters down. : (\n\n"
+                "(Hit Return/Enter to quit!)\n")
 
     listener = threading.Thread(target=command_listener)
     waiter = threading.Thread(target=wait_sometime)
@@ -389,6 +398,6 @@ def b_trap():
 
 
 def b_dwarf_room():
-#    player.vis_add(b_dwarf_room, 0)
+    player.vis_add(b_dwarf_room, 0)
     b_printer("texts/kapanyanyimonyok.txt")
     b_not_ready("Dwarf Room\t")

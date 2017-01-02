@@ -1,3 +1,4 @@
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 # I store here all the global variables.
 #
@@ -169,6 +170,7 @@ bv_commands = {
         "look around",
         "check room",
         "check everything",
+        "check"
     ],
     'jump': [
         "jump",
