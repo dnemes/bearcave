@@ -113,7 +113,7 @@ bv_commands = {
         'take a right turn'
     ],
     'turn_off_lights': [
-        "turn of",
+        "turn off",
         "Lights off!",
         "put out light",
         "turn off the light",
@@ -180,5 +180,29 @@ bv_commands = {
         "leap",
         "leap out",
         "hop out"
+    ],
+    'kill': [
+        "kill",
+        "attack",
+        "cut off it's head",
+        "cut off his head"
+    ],
+    'accept': [
+        "accept",
+        "do mission",
+        "accept mission",
+        "mission"
+    ],
+    'refuse': [
+        "refuse",
+        "decline",
+        "won't do mission"
     ]
 }
+
+bv_player_fight = [
+    ("You go for its fore legs...", "You cut its right leg!"),
+    ("You try to attack its chest...", "You stab it in its stomach!"),
+    ("You go for its back legs...", "You cut down its back-left leg!"),
+    ("You try to hit its head...", "You cut into the bear's neck!")
+]

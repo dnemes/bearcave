@@ -16,8 +16,6 @@ import time
 import threading
 from sys import exit
 from b_globals import *
-
-
 # import random
 
 
@@ -52,6 +50,8 @@ class BPlayer(object):
         self.gold = gold
         self.points = points
         self.visited = []
+        self.attack = 8
+        self.damage = 2
 
     def print_current_state(self):
         """Prints all data stored in the instance of the BPlayer object.
@@ -125,7 +125,7 @@ class BPlayer(object):
 # -----------------------------------------------------------------------------
 # GAME FUNCTIONS. These are modular parts, some are used in other functions.
 def b_not_ready(nextscene):
-    """Prints a message, and exits."""
+    """Prints a message, and goess back to the main menu."""
     print "\n*-----------------------*"
     print "*", nextscene, "\t\t*"
     print "* ... is not ready yet. *\n" \
@@ -340,6 +340,9 @@ def b_corridor():
             print "You approach the torches..."
             b_trap()
             exit(0)
+        elif command in bv_commands['turn_off_lights']:
+            b_corridor_lights_out()
+            exit(0)
         else:
             if indecision < 1:
                 indecision += 1
@@ -352,6 +355,28 @@ def b_corridor():
                        "You die of procrastination. (Very common nowadays.)")
 
 
+def b_corridor_lights_out():
+    """You can find the sword here, and see the trap."""
+    player.vis_add('b_corridor_lights_out', 0)
+    b_printer('texts/corridor_lights_out.txt')
+    while True:
+        command = raw_input(" > ")
+
+        if command in bv_commands[
+            'look_around'] and 'sword' not in player.inventory:
+            print "You approach the shiny thing to your right, and you\n" \
+                  "realize that it is a sword embedded into the wall. You\n" \
+                  "can grab it by it's handle, and shake it free."
+            player.inv_add('sword', 1)
+            print "What do you do now?"
+        elif command in bv_commands['go']:
+            print "You start to approach the lines on the floor..."
+            b_trap()
+            exit(0)
+        else:
+            print "Sorry, I didn't catch you..."
+
+
 def b_trap():
     print "The floor suddenly disappears behind your feet." \
           "You start to fall.\nWhat do you do? HURRY!"
@@ -361,7 +386,6 @@ def b_trap():
 
     def command_listener():
         """This listens to commands, and also reacts."""
-
         while True:
             command = raw_input(" > ")
             if waiter.is_alive():
@@ -373,6 +397,7 @@ def b_trap():
                     waiter.join()
                     player.vis_add(b_trap, 0)
                     b_dwarf_room()
+                    exit(0)
                 else:
                     print "Sorry, I didn't get that"
             else:
@@ -398,6 +423,48 @@ def b_trap():
 
 
 def b_dwarf_room():
+    """Dwarf Room Scene"""
     player.vis_add(b_dwarf_room, 0)
     b_printer("texts/kapanyanyimonyok.txt")
-    b_not_ready("Dwarf Room\t")
+    while True:
+        command = raw_input(" > ")
+
+        if command in bv_commands['accept'] or command in bv_commands['yes']:
+            b_printer('texts/kapanyanyimonyok_mission.txt')
+            b_bear_room()
+            exit(0)
+        elif command in bv_commands['refuse'] or command in bv_commands['no']:
+            b_dead("\n'I won't do your stupid mission Kapanyányimonyók!' you "
+                   "say.\nThe kapanyányimonyók gets very angry, and eats his\n"
+                   "mush from your stomach!"
+                   )
+        elif command in bv_commands['kill']:
+            if 'sword' in player.inventory:
+                b_dead("\nYou attack the kapanyányimonyók with your rusty\n"
+                       "sword, and he dodges your attack.\n"
+                       "'You anyámasszonykatonája!' you shout, and try to hit\n"
+                       "him again. He dodges again, and as you turn, you lose\n"
+                       "your balance, and fall. You lose the sword.\n"
+                       "He takes the sword, turns you onto your back, "
+                       "and\neats his mush from your stomach. You die!"
+                       )
+            else:
+                b_dead("\nHe jumps you as you start to attack him, turns you\n"
+                       "onto your back, and eats his mush from your stomach.\n"
+                       "You die!"
+                       )
+        else:
+            print "That's not an answer to this situation. : ( "
+
+
+def b_bear_room():
+    """This is the scene, where you fight the bear, and decide about the
+    honey."""
+    bear_hp = 15
+    b_printer('texts/bear_room.txt')
+    while bear_hp is 0 or player.health is 0:
+        # pointless loop for structure.
+        bear_attack = 10
+        bear_damage = 4
+        print bear_hp
+        bear_hp += -1
