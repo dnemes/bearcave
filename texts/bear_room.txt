@@ -1,6 +1,8 @@
+
 ---------------------------
 **     The Bear Room     **
 ---------------------------
 
 As you enter the room, you there is a huge bear before you, eating a
-cheesecake. There is a jar of honey behind it. What do you do?
+cheesecake. There is a jar of honey behind it. You can attack, eat the
+cheesecake or take the honey. What do you do?

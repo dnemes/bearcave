@@ -16,7 +16,7 @@ import time
 import threading
 from sys import exit
 from b_globals import *
-# import random
+import random
 
 
 # -----------------------------------------------------------------------------
@@ -50,7 +50,7 @@ class BPlayer(object):
         self.gold = gold
         self.points = points
         self.visited = []
-        self.attack = 8
+        self.attack = 6
         self.damage = 2
 
     def print_current_state(self):
@@ -61,7 +61,8 @@ class BPlayer(object):
         print "Health:\t\t", self.health
         print "Achievements:\t", self.achievements
         print "Gold:\t\t", self.gold
-        print "Points:\t\t", self.points
+        print "Attack:\t\t", self.attack
+        print "Damage:\t\t", self.damage
         print "-------------------------"
 
     def inv_add(self, new_item, print_it):
@@ -92,11 +93,12 @@ class BPlayer(object):
             print "{},".format(i),
         print
 
-    def ch_health(self, change):
+    def ch_health(self, change, print_it):
         """Changes the health attribute by 'change' amount of HP.
            Use integers."""
         self.health += change
-        print "Now you have {} health points.".format(self.health)
+        if print_it:
+            print "Now you have {} health points.".format(self.health)
 
     def ch_gold(self, change):
         """Changes the gold attribute by 'change' amount. Use integers."""
@@ -412,7 +414,7 @@ def b_trap():
         else:
             b_dead(
                 "\nYou fall into the deep hole in the floor, and die when you\n"
-                "hit the floor fifty meters down. : (\n\n"
+                "hit the bottom fifty meters down. : (\n\n"
                 "(Hit Return/Enter to quit!)\n")
 
     listener = threading.Thread(target=command_listener)
@@ -458,13 +460,117 @@ def b_dwarf_room():
 
 
 def b_bear_room():
-    """This is the scene, where you fight the bear, and decide about the
-    honey."""
-    bear_hp = 15
+    """This is the scene, where you meat the bear"""
+
     b_printer('texts/bear_room.txt')
-    while bear_hp is 0 or player.health is 0:
-        # pointless loop for structure.
-        bear_attack = 10
-        bear_damage = 4
-        print bear_hp
-        bear_hp += -1
+    while True:
+        command = raw_input(" > ")
+
+        if command in bv_commands['kill']:
+            print "You prepare yourself and launch yourself on the bear."
+            b_bear_fight()
+            exit(0)
+        elif command in bv_commands['take_honey']:
+            b_dead("The bear looks at you wondering, then slaps your face\n"
+                   "off. He than eats his honey.")
+        elif command in bv_commands['eat_cheesecake']:
+            b_dead("The bear gets pissed off at you for eating its\n"
+                   "cheesecake, and takes some time chewing your legs off.")
+        else:
+            print "Sorry, I don't know what you mean..."
+
+
+def b_bear_fight():
+    """This function contains the fight mechanisms."""
+    bear_hp = 15
+    bear_attack = 11
+    bear_damage = 4
+    if 'sword' in player.inventory:
+        player.attack += 3
+        player.damage += 2
+
+    player.print_current_state()
+
+    while bear_hp > 0 and player.health > 0:
+        random_index = random.randint(0, len(bv_bear_fight) - 1)
+        print bv_bear_fight[random_index][0]
+        player_roll = random.randint(1, player.attack)
+        if bear_attack <= 1:
+            bear_attack = 3
+        bear_roll = random.randint(1, bear_attack)
+        print 'You rolled %d and the bear rolled %d' % (player_roll, bear_roll)
+        if player_roll >= bear_roll:
+            print bv_bear_fight[random_index][1]
+            bear_hp += -player.damage
+            print '  Bear hp:', bear_hp
+            bear_attack += bv_bear_fight[random_index][2]
+            print '  Bear attack', bear_attack
+            print '*You win this attack.'
+            print '----------------'
+        else:
+            player.ch_health(-bear_damage, 0)
+            print 'Your attack fails, you loose', bear_damage, 'health.'
+            print '  Now your health is', player.health
+            print '*The bear wins this attack.'
+            print '----------------'
+
+    if bear_hp <= 0:
+        print "You killed the bear, and you collected the honey."
+        player.inv_add('honey', 1)
+        if player.health == 10:
+            player.ach_add("The Mighty Bearslayer", 1)
+        else:
+            player.ach_add("Survived the bear", 1)
+        b_gold_chest()
+        exit(0)
+    else:
+        b_dead("The bear kills you.")
+
+
+def b_gold_chest():
+
+    print "You also find a small chest, full of gold behind the corpse"
+    print "of the big animal."
+    print "How much gold do you take?"
+
+    how_much = None
+    while how_much is None:
+        command = raw_input("> ")
+        try:
+            how_much = int(command)
+        except ValueError:
+            b_dead("You die. Type a number next time.")
+
+    if how_much < 50:
+        print "Nice, you're not greedy, you can keep the gold!"
+        player.ch_gold(how_much)
+        player.ach_add("Especially decent guy, who is not greedy at all.", 1)
+        b_final_scene()
+        exit(0)
+    else:
+        b_dead("You greedy bastard! You should have taken less. A demon\n"
+               "takes your soul to the Nether, you die.")
+
+
+def b_final_scene():
+    """I think the title is pretty descriptive."""
+    b_printer('texts/final.txt')
+
+    while True:
+        command = raw_input(" > ")
+
+        if command in (bv_commands['keep_honey'] or bv_commands['refuse']):
+            b_dead("You refuse to give the honey to the kapanyányimonyók,\n"
+                   "so he takes it from you while tying you up, and eating\n"
+                   "his now honey flavoured mush from your stomach : ( ")
+        elif command in (bv_commands['give_back'] or bv_commands['accept']):
+            player.inventory.remove('honey')
+            print "The kapanyányimonyók eats the honey, and you kill it in"
+            print "the meantime.\nYou win!"
+            player.ach_add("Sneaky backstabber", 0)
+            player.ach_add("Winner", 0)
+            print "Your stats: "
+            player.print_current_state()
+            exit(0)
+        else:
+            print "Pls. decide already."

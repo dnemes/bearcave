@@ -5,6 +5,10 @@
 # 1. "bv_commands" dictionary, which is a dictionary  where keys are the
 # "names" of the commands, and "elements" are lists of acceptable phrasings
 # for those commands.
+# 2. "bv_bear_fight" is a list of tuples, each containing 3 elements for the
+# fight scene, an attack area (str), a text to be displayed if successful
+# (str), and an (int), which stores the negative attack modifier the bear gets
+# from a certain attack.
 
 player = 0
 
@@ -197,12 +201,44 @@ bv_commands = {
         "refuse",
         "decline",
         "won't do mission"
+    ],
+    'take_honey': [
+        "take it",
+        "take honey",
+        "honey",
+        "take"
+    ],
+    'eat_cheesecake': [
+        "eat it",
+        "cheesecake",
+        "eat cheesecake",
+        "eat",
+        "eat his cheesecake"
+    ],
+    'give_back': [
+        "give back to dwarf",
+        "give back to kapanyanyimonyok",
+        "give back to kapanyányimonyók",
+        "give back honey",
+        "give honey",
+        "give him",
+        "give it to him",
+        "give back",
+        "give"
+    ],
+    'keep_honey': [
+        "keep honey",
+        "don't give back",
+        "keep it",
+        "honey is my precious",
+        "precious",
+        "the precious"
     ]
 }
 
-bv_player_fight = [
-    ("You go for its fore legs...", "You cut its right leg!"),
-    ("You try to attack its chest...", "You stab it in its stomach!"),
-    ("You go for its back legs...", "You cut down its back-left leg!"),
-    ("You try to hit its head...", "You cut into the bear's neck!")
+bv_bear_fight = [
+    ("You go for its fore legs...", "You cut its right leg!", -3),
+    ("You try to attack its chest...", "You stab it in its stomach!", -2),
+    ("You go for its back legs...", "You cut down its back-left leg!", -3),
+    ("You try to hit its head...", "You cut into the bear's neck!", -4)
 ]
