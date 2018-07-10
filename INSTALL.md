@@ -1,4 +1,4 @@
-# Install instructions:
+0# Install instructions:
 
 * Install Python 2.7.x as described in the link below: <br>
 https://learnpythonthehardway.org/book/ex0.html
@@ -11,5 +11,5 @@ https://learnpythonthehardway.org/book/ex0.html
 <code> $ cd [absolute path of the unpacked /bearcave/ folder]</code>
 
 * Start the game by typing ...<br>
-<code> $ python bearcave_public_testrun.py</code><br>
+<code> $ python bearcave\_public\_testrun.py</code><br>
 ... into the Terminal.

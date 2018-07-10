@@ -482,9 +482,9 @@ def b_bear_room():
 
 def b_bear_fight():
     """This function contains the fight mechanisms."""
-    bear_hp = 15
+    bear_hp = 8
     bear_attack = 11
-    bear_damage = 4
+    bear_damage = 3
     if 'sword' in player.inventory:
         player.attack += 3
         player.damage += 2

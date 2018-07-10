@@ -12,6 +12,6 @@ following link:
 
 After I started to work on the game seriously, it soon turned 
 out that I bit a lot more than I could chew, so please forgive 
-me for the occasional clumsyness of the gameplay. I hope 
+me for the occasional clumsiness of the gameplay. I hope
 however, that I managed to make at least the code readable, and 
 that you will have some good moments with the game.
